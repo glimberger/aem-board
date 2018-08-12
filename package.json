@@ -1,0 +1,10 @@
+{
+  "name": "aem-board",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "run-s tab:server tab:client",
+    "tab:client": "cd client; ttab -t 'AEM Client' yarn run start",
+    "tab:server": "cd server; ttab -t 'AEM Server' yarn run dev"
+  }
+}
