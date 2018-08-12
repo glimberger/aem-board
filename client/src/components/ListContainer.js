@@ -136,7 +136,7 @@ class ListContainer extends Component {
                     </ListGroupItemHeading>
                     <Row>
                       <Col>
-                        <ListGroupItemText>
+                        <ListGroupItemText className='mb-0'>
                           <FontAwesomeIcon icon={faClock} />
                           {' '}
                           {aem.hours} h
@@ -144,7 +144,7 @@ class ListContainer extends Component {
                       </Col>
 
                       <Col>
-                        <ListGroupItemText>
+                        <ListGroupItemText className='mb-0'>
                           <FontAwesomeIcon icon={faMoneyBillWave} />
                           {' '}
                           {aem.salary} €
