@@ -11,7 +11,14 @@ import {
 } from 'reactstrap'
 import { withRouter } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCalendarAlt, faClock, faMoneyBillWave, faCertificate, faBookmark, faTrash } from '@fortawesome/free-solid-svg-icons'
+import {
+  faCalendarAlt,
+  faClock,
+  faMoneyBillWave,
+  faCertificate,
+  faBookmark,
+  faTrash
+} from '@fortawesome/free-solid-svg-icons'
 
 import FilterForm from './FilterForm'
 
@@ -57,8 +64,8 @@ class ListContainer extends Component {
     })
   }
 
-  handleRemove(id) {
-    fetch('http://localhost:3000/aem/'+id, {method: 'DELETE'})
+  handleRemove (id) {
+    fetch('http://localhost:3000/aem/' + id, {method: 'DELETE'})
       .then(() => {
         fetch('http://localhost:3000/aem')
           .then(res => res.json())
@@ -110,12 +117,12 @@ class ListContainer extends Component {
                     <ListGroupItemHeading>
                       <Row>
                         <Col>
-                          <FontAwesomeIcon icon={faBookmark} />
+                          <FontAwesomeIcon icon={faBookmark}/>
                           {' '}
                           {aem.firm}
                         </Col>
                         <Col>
-                          <FontAwesomeIcon icon={faCalendarAlt} />
+                          <FontAwesomeIcon icon={faCalendarAlt}/>
                           {' '}
                           <span className='small text-monospace'>
                             {startDate} → {endDate} [<strong>{aem.days}j</strong>]
@@ -137,7 +144,7 @@ class ListContainer extends Component {
                     <Row>
                       <Col>
                         <ListGroupItemText className='mb-0'>
-                          <FontAwesomeIcon icon={faClock} />
+                          <FontAwesomeIcon icon={faClock}/>
                           {' '}
                           {aem.hours} h
                         </ListGroupItemText>
@@ -145,7 +152,7 @@ class ListContainer extends Component {
 
                       <Col>
                         <ListGroupItemText className='mb-0'>
-                          <FontAwesomeIcon icon={faMoneyBillWave} />
+                          <FontAwesomeIcon icon={faMoneyBillWave}/>
                           {' '}
                           {aem.salary} €
                         </ListGroupItemText>
