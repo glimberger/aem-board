@@ -37,7 +37,8 @@ class ListContainer extends Component {
       aems: [],
       filter: {
         startDate: '',
-        endDate: ''
+        endDate: '',
+        orderBy: 'ASC'
       }
     }
     this.handleClick = this.handleClick.bind(this)
@@ -58,10 +59,17 @@ class ListContainer extends Component {
     this.props.history.push('/aem/' + id)
   }
 
-  filter (startDate, endDate) {
+  filter (startDate, endDate, orderBy) {
     this.setState({
-      filter: {startDate, endDate}
+      filter: {startDate, endDate, orderBy}
     })
+
+    fetch('http://localhost:3000/aem?order=' + orderBy)
+      .then(res => res.json())
+      .then(aems => {
+        this.setState({aems})
+      })
+      .catch(err => {console.error(err)})
   }
 
   handleRemove (id) {
@@ -78,7 +86,9 @@ class ListContainer extends Component {
   }
 
   render () {
-    const {aems} = this.state
+    let {aems} = this.state
+    const {startDate, endDate} = this.state.filter
+
     return (
       <div>
         <Container className='my-3'>
@@ -86,7 +96,6 @@ class ListContainer extends Component {
           <ListGroup>
             {aems
               .filter(aem => {
-                const {startDate, endDate} = this.state.filter
 
                 // filter form is empty
                 if (startDate === '') return true

@@ -18,7 +18,8 @@ class FilterForm extends Component {
 
     this.state = {
       startDate: '',
-      endDate: formatDate(new Date(Date.now()))
+      endDate: formatDate(new Date(Date.now())),
+      orderBy: 'ASC'
     }
     this.handleChange = this.handleChange.bind(this)
   }
@@ -26,7 +27,7 @@ class FilterForm extends Component {
   handleChange(event) {
     const {name, value} = event.target
     this.setState({[name]: value})
-    this.props.filter(this.state.startDate, this.state.endDate)
+    this.props.filter(this.state.startDate, this.state.endDate, this.state.orderBy)
   }
 
   render() {
@@ -58,6 +59,21 @@ class FilterForm extends Component {
               onBlur={this.handleChange}
               onClick={this.handleChange}
             />
+          </FormGroup>
+          <FormGroup className="mb-2 mr-sm-2 mb-sm-0">
+            <Label for="orderBy" className="mr-sm-2">par ordre</Label>
+            <Input
+              type="select"
+              name="orderBy"
+              id="orderBy"
+              value={this.state.orderBy}
+              onChange={this.handleChange}
+              onBlur={this.handleChange}
+              onClick={this.handleChange}
+            >
+              <option value='ASC'>ascendant</option>
+              <option value='DESC'>descendant</option>
+            </Input>
           </FormGroup>
         </Form>
       </div>
