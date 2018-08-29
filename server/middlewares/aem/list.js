@@ -5,15 +5,23 @@ const Path = require('path')
 
 const readFile = util.promisify(fs.readFile)
 
-// sort descending
-const compareAem = (aemA, aemB) => {
-  if (aemA.startDate < aemB.startDate) return 1
-  if (aemA.startDate > aemB.startDate) return -1
-  return 0
+const compareAem = order => (aemA, aemB) => {
+  if (order === 'DESC') {
+    if (aemA.startDate > aemB.startDate) return -1
+    if (aemA.startDate < aemB.startDate) return 1
+    return 0
+  }
+  else {
+    if (aemA.startDate > aemB.startDate) return 1
+    if (aemA.startDate < aemB.startDate) return -1
+    return 0
+  }
 }
 
 const list = (req, res, next) => {
   debug('BEGIN listing AEM ...')
+
+  const order = req.query.order ? req.query.order.toUpperCase() : 'ASC'
 
   const dataPath = Path.join(__dirname, '../../static/data.json')
   debug('      reading data file %s', dataPath)
@@ -23,7 +31,7 @@ const list = (req, res, next) => {
       debug('      parsing data %s', json)
       const data = JSON.parse(json)
 
-      res.aem = data.aem.sort(compareAem)
+      res.aem = data.aem.sort(compareAem(order))
       next()
     })
 }
