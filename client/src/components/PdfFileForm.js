@@ -52,7 +52,7 @@ class PdfFileForm extends Component {
         <CardBody>
           <Form onSubmit={this.handleSubmit}>
             <Row>
-              <Col sm='auto'>
+              <Col>
                 <FormGroup>
                   <CustomInput
                     type="file"
@@ -65,7 +65,7 @@ class PdfFileForm extends Component {
                   <FormFeedback tooltip>Le fichier PDF est obligatoire</FormFeedback>
                 </FormGroup>
               </Col>
-              <Col sm='2'>
+              <Col xs='4' sm='4' md='3'>
                 <Button color='primary' block>
                   <FontAwesomeIcon icon={faFilePdf} /> Analyser
                 </Button>
