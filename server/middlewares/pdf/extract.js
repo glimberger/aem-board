@@ -31,7 +31,7 @@ const extract = (req, res, next) => {
     const startDateIndex = content.findIndex(findIndexInclude("Date d'embauche"))
     const endDateIndex = content.findIndex(findIndexInclude('fin du contrat'))
     const ruptureAnticipeeIndex = content.findIndex(findIndexInclude('Rupture anticipée'))
-    const salaireIndex = content.findIndex(findIndexInclude('TOTAL'))
+    const salaireIndex = content.findIndex(findIndexInclude('CONTRIBUTIONS DUES'))
 
     let startDate = content[startDateIndex+1] ? content[startDateIndex+1].str.replace(/\s+/g, '-') : null
     if (startDate) {
@@ -54,7 +54,7 @@ const extract = (req, res, next) => {
       endDate: endDate,
       hours: content[ruptureAnticipeeIndex+4] ? content[ruptureAnticipeeIndex+4].str : null,
       days: content[ruptureAnticipeeIndex+7] ? content[ruptureAnticipeeIndex+7].str : null,
-      salary: content[salaireIndex-1] ? content[salaireIndex-1].str.replace(',', '.') : null,
+      salary: content[salaireIndex+1] ? content[salaireIndex+1].str.replace(',', '.') : null,
       //content
     }
 
