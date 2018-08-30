@@ -35,8 +35,8 @@ class AemContainer extends Component {
 
     const formData = new FormData(event.target)
 
-    for (let [, value] of formData.entries()) {
-      if (!value) {
+    for (let [key, value] of formData.entries()) {
+      if (key !== 'url' && key !== 'path' && !value) {
         console.error('Invalid form!')
         return
       }

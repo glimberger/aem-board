@@ -9,6 +9,7 @@ class PdfContainer extends Component {
     super(props)
 
     this.handleFileSubmit = this.handleFileSubmit.bind(this)
+    this.handleTempAemClick = this.handleTempAemClick.bind(this)
   }
 
   componentDidMount() {
@@ -35,10 +36,16 @@ class PdfContainer extends Component {
       .catch(err => {console.error(err)})
   }
 
+  handleTempAemClick (event) {
+    event.preventDefault()
+    this.props.changeActionToEdit()
+    this.props.history.push('/aem/temp')
+  }
+
   render () {
     return (
       <Container className='my-3'>
-        <PdfFileForm handleSubmit={this.handleFileSubmit}/>
+        <PdfFileForm handleSubmit={this.handleFileSubmit} handleClick={this.handleTempAemClick}/>
       </Container>
     )
   }

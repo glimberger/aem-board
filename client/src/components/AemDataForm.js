@@ -27,8 +27,9 @@ class AemDataForm extends Component {
             outline
             color='secondary'
             size='sm'
-            className='float-right'
+            className={'float-right' + (!aem.url ? ' d-none' : '')}
             onClick={() => AemDataForm.onClick(aem.url)}
+            disabled={!aem.url}
           >
             <FontAwesomeIcon icon={faFilePdf} /> Voir le PDF
           </Button>
@@ -169,7 +170,7 @@ class AemDataForm extends Component {
             <Button
               outline color="secondary"
               type='button'
-              className={'float-right' + (action === 'VIEW' ? ' d-none' : '')}
+              className={'float-right' + (action === 'VIEW' || !aem.url ? ' d-none' : '')}
               onClick={this.props.handleCancel}
             >
               <FontAwesomeIcon icon={faUndo} /> Annuler

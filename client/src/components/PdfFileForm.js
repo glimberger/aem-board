@@ -12,7 +12,7 @@ import {
   Row
 } from 'reactstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFilePdf } from '@fortawesome/free-solid-svg-icons'
+import { faFilePdf, faCertificate } from '@fortawesome/free-solid-svg-icons'
 
 const defaultLabel = 'Choisissez un fichier'
 
@@ -52,7 +52,7 @@ class PdfFileForm extends Component {
         <CardBody>
           <Form onSubmit={this.handleSubmit}>
             <Row>
-              <Col>
+              <Col xs='8' sm='8' md='auto'>
                 <FormGroup>
                   <CustomInput
                     type="file"
@@ -68,6 +68,15 @@ class PdfFileForm extends Component {
               <Col xs='4' sm='4' md='3'>
                 <Button color='primary' block>
                   <FontAwesomeIcon icon={faFilePdf} /> Analyser
+                </Button>
+              </Col>
+              <Col xs='5' sm='5' md='4' lg='3'>
+                <Button
+                  color='secondary'
+                  block
+                  onClick={this.props.handleClick}
+                >
+                  <FontAwesomeIcon icon={faCertificate} /> AEM temporaire
                 </Button>
               </Col>
             </Row>
