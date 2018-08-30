@@ -126,7 +126,7 @@ class ListContainer extends Component {
                     <ListGroupItemHeading>
                       <Row>
                         <Col>
-                          <FontAwesomeIcon icon={faBookmark}/>
+                          <FontAwesomeIcon icon={faBookmark} className={aem.url ? '' : ' text-info'}/>
                           {' '}
                           {aem.firm}
                         </Col>
