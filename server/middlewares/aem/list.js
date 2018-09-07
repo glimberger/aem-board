@@ -1,4 +1,5 @@
-const debug = require('debug')('aem-board:server')
+const appRoot = require('app-root-path')
+const winston = require(`${appRoot}/config/winston`)
 const fs = require('fs')
 const util = require('util')
 const Path = require('path')
@@ -19,19 +20,21 @@ const compareAem = order => (aemA, aemB) => {
 }
 
 const list = (req, res, next) => {
-  debug('BEGIN listing AEM ...')
+  winston.debug('BEGIN listing AEM ...')
 
   const order = req.query.order ? req.query.order.toUpperCase() : 'ASC'
 
   const dataPath = Path.join(__dirname, '../../static/data.json')
-  debug('      reading data file %s', dataPath)
 
   readFile(dataPath, 'utf8')
     .then(json => {
-      debug('      parsing data %s', json)
+      winston.debug(`parsing data in ${dataPath}`)
       const data = JSON.parse(json)
 
       res.aem = data.aem.sort(compareAem(order))
+
+      winston.debug('END listing AEM')
+
       next()
     })
 }

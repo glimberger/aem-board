@@ -1,4 +1,5 @@
-const debug = require('debug')('aem-board:server')
+const appRoot = require('app-root-path')
+const winston = require(`${appRoot}/config/winston`)
 const fs = require('fs')
 const util = require('util')
 const Path = require('path')
@@ -9,14 +10,13 @@ const writeFile = util.promisify(fs.writeFile)
 const create = (req, res, next) => {
   const {path, url, id, firm, startDate, endDate, hours, days, salary} = req.body
 
-  debug('BEGIN creating AEM ...')
+  winston.debug('BEGIN creating AEM...')
 
   const dataPath = Path.join(__dirname, '../../static/data.json')
-  debug('      reading data file %s', dataPath)
 
   readFile(dataPath, 'utf8')
     .then(json => {
-      debug('      parsing data %s', json)
+      winston.debug(`parsing data in file ${dataPath}`)
       let data = JSON.parse(json)
 
       const entry = {path, url, id, firm, startDate, endDate, hours, days, salary}
@@ -25,24 +25,23 @@ const create = (req, res, next) => {
         return aem.id === id
       })
       if (entryIndex !== -1) {
-        debug('      updating entry %d in data collection', entryIndex)
+        winston.debug(`updating entry ${entryIndex} in data collection`)
         data.aem[entryIndex] = entry
       }
       else {
-        debug('      adding new entry in data collection')
+        winston.debug('adding new entry in data collection')
         data.aem.push(entry)
       }
 
       data = {...data, aem: data.aem}
-      debug('      updated data %s', JSON.stringify(data))
+      winston.debug(`updated data ${JSON.stringify(data)}`)
 
       writeFile(dataPath, JSON.stringify(data), 'utf8')
         .then(() => {
-          debug('      writing new data in file %s', dataPath)
+          winston.debug(`writing new data in file ${dataPath}`)
           res.aem = entry
-          console.log(res.aem)
 
-          debug('END   creating AEM ...')
+          winston.debug('END creating AEM')
 
           next()
         })

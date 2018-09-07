@@ -1,4 +1,5 @@
-const debug = require('debug')('aem-board:server')
+const appRoot = require('app-root-path')
+const winston = require(`${appRoot}/config/winston`)
 const fs = require('fs')
 const util = require('util')
 const Path = require('path')
@@ -7,17 +8,16 @@ const readFile = util.promisify(fs.readFile)
 const writeFile = util.promisify(fs.writeFile)
 
 const update = (req, res,next) => {
-  debug('BEGIN updating AEM ...')
+  winston.debug('BEGIN updating AEM ...')
 
   const dataPath = Path.join(__dirname, '../../static/data.json')
-  debug('      reading data file %s', dataPath)
 
   const {id} = req.params
   const {path, url, firm, startDate, endDate, hours, days, salary} = req.body
 
   readFile(dataPath, 'utf8')
     .then(json => {
-      debug('      parsing data %s', json)
+      winston.debug(`parsing data in file ${dataPath}`)
       let data = JSON.parse(json)
 
       const entryIndex = data.aem.findIndex(aem => {
@@ -28,7 +28,7 @@ const update = (req, res,next) => {
         return next(new Error('Failed to retrieve AEM n°'+id))
       }
 
-      debug('      updating entry %d in data collection', entryIndex)
+      winston.debug(`updating entry ${entryIndex} in data collection`)
       const aem = {...data.aem[entryIndex]}
 
       const entry = {
@@ -46,15 +46,14 @@ const update = (req, res,next) => {
       data.aem[entryIndex] = entry
 
       data = {...data, aem: data.aem}
-      debug('      updated data %s', JSON.stringify(data))
+      winston.debug(`updated data ${JSON.stringify(data)}`)
 
       writeFile(dataPath, JSON.stringify(data), 'utf8')
         .then(() => {
-          debug('      writing new data in file %s', dataPath)
+          winston.debug(`writing new data in file ${dataPath}`)
           res.aem = entry
-          console.log(res.aem)
 
-          debug('END   updating AEM ...')
+          winston.debug('END updating AEM')
 
           next()
         })

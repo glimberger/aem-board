@@ -1,10 +1,11 @@
-const debug = require('debug')('aem-board:server')
+const appRoot = require('app-root-path')
+const winston = require(`${appRoot}/config/winston`)
 const PDFExtract = require('pdf.js-extract').PDFExtract
 const pdfExtract = new PDFExtract()
 const options = {}
 
 const extract = (req, res, next) => {
-  debug('BEGIN extracting %s ...', req.file.filename)
+  winston.debug(`BEGIN extracting ${req.file.filename}...`)
 
   pdfExtract.extract(req.file.path, options , (err, data) => {
     if (err) return console.log(err)
@@ -58,7 +59,7 @@ const extract = (req, res, next) => {
       //content
     }
 
-    debug('END   extracting %s', req.file.filename)
+    winston.debug(`END extracting ${req.file.filename}`)
 
     next()
   })

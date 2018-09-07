@@ -1,4 +1,5 @@
-const debug = require('debug')('aem-board:server')
+const appRoot = require('app-root-path')
+const winston = require(`${appRoot}/config/winston`)
 const fs = require('fs')
 const util = require('util')
 const Path = require('path')
@@ -8,16 +9,15 @@ const writeFile = util.promisify(fs.writeFile)
 const unlink = util.promisify(fs.unlink)
 
 const remove = (req,res,next) => {
-  debug('BEGIN deleting AEM ...')
+  winston.debug('BEGIN deleting AEM...')
 
   const dataPath = Path.join(__dirname, '../../static/data.json')
-  debug('      reading data file %s', dataPath)
 
   const {id} = req.params
 
   readFile(dataPath, 'utf8')
     .then(json => {
-      debug('      parsing data %s', json)
+      winston.debug(`parsing data in file ${dataPath}`)
       let data = JSON.parse(json)
 
       const entryIndex = data.aem.findIndex(aem => {
@@ -31,19 +31,19 @@ const remove = (req,res,next) => {
       const aem = {...data.aem[entryIndex]}
       const path = aem.path
 
-      debug('      deleting entry %d in data collection', entryIndex)
+      winston.debug(`deleting entry ${entryIndex} in data collection`)
       data = {...data, aem: [...data.aem.slice(0, entryIndex), ...data.aem.slice(entryIndex+1)]}
 
-      debug('      updated data %s', JSON.stringify(data))
+      winston.debug(`updated data ${JSON.stringify(data)}`)
 
       Promise.all([
         writeFile(dataPath, JSON.stringify(data), 'utf8'),
         unlink(path)
       ])
         .then(() => {
-          debug('END   deleting AEM')
+          winston.debug('END deleting AEM')
 
-          return next()
+          next()
         })
         .catch(err => next(err))
     })
