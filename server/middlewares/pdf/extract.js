@@ -5,10 +5,17 @@ const pdfExtract = new PDFExtract()
 const options = {}
 
 const extract = (req, res, next) => {
-  winston.debug(`BEGIN extracting ${req.file.filename}...`)
+  winston.debug('BEGIN pdf.extract middleware')
+  winston.debug(`extracting ${req.file.filename}`)
 
   pdfExtract.extract(req.file.path, options , (err, data) => {
-    if (err) return console.log(err)
+    if (err) {
+      winston.debug('END pdf.extract middleware')
+
+      return next(err)
+    }
+
+    winston.debug(`data extracted from ${req.file.filename}`)
 
     const {pages} = data
     const {content} = pages[0]
@@ -59,9 +66,10 @@ const extract = (req, res, next) => {
       //content
     }
 
-    winston.debug(`END extracting ${req.file.filename}`)
+    winston.debug(`data formatted: ${res.pdf}`)
+    winston.debug('END pdf.extract middleware')
 
-    next()
+    return next()
   })
 }
 
