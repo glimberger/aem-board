@@ -8,6 +8,7 @@ const cors = require('cors')
 
 const pdfRouter = require('./routes/pdf')
 const aemRouter = require('./routes/aem')
+const pushRouter = require('./routes/push')
 
 const app = express()
 
@@ -21,6 +22,7 @@ app.use('/static', express.static(path.join(__dirname, 'static')))
 
 app.use('/pdf', pdfRouter)
 app.use('/aem', aemRouter)
+app.use('/push', pushRouter)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

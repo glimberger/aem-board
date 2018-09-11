@@ -63,3 +63,4 @@ typings/
 public/
 static/
 /db/data*
+/db/push*

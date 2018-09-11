@@ -9,6 +9,10 @@ const aemRetrieve = require('./aem/retrieve')
 const aemUpdate = require('./aem/update')
 const aemRemove = require('./aem/remove')
 
+const pushKey = require('./push/key')
+const pushSubscription = require('./push/subscription')
+const pushSend = require('./push/send')
+
 module.exports = {
   pdfMulter,
   pdfExtract,
@@ -18,5 +22,8 @@ module.exports = {
   aemList,
   aemRetrieve,
   aemUpdate,
-  aemRemove
+  aemRemove,
+  pushKey,
+  pushSubscription,
+  pushSend
 }
