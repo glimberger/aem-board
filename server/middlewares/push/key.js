@@ -4,7 +4,7 @@ const webpPush = require('web-push')
 const Path = require('path')
 const Datastore = require('nedb')
 
-const dbPath = Path.join(__dirname, '../../db/push')
+const dbPath = Path.join(__dirname, '../../db/key')
 
 db = new Datastore({filename: dbPath, autoload: true})
 
