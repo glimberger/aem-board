@@ -64,3 +64,5 @@ public/
 static/
 /db/data*
 /db/push*
+/db/subscription*
+/db/key*
